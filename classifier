@@ -1,6 +1,6 @@
 import pandas as pd
 
-kepler_data = pd.read_csv('')
+kepler_data = pd.read_csv('https://drive.google.com/file/d/1oSSlDKz2q0kMYjLcUmC-yjaF0hxyOPo5/view?usp=drive_link')
 
 # Dropping unnecessary columns
 kepler_data = kepler_data.drop(['kepler_name', 'ra', 'dec', 'kepid', 'period', 'ar', 'depth', 'equatorial_radius', 'insol', 'discovery_year', 'transit_type', 'last_update', 'kepler_status', 'koi_srad', 'koi_steff', 'koi_disposition'], axis=1)
