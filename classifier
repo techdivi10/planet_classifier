@@ -1,0 +1,34 @@
+import pandas as pd
+
+kepler_data = pd.read_csv('')
+
+# Dropping unnecessary columns
+kepler_data = kepler_data.drop(['kepler_name', 'ra', 'dec', 'kepid', 'period', 'ar', 'depth', 'equatorial_radius', 'insol', 'discovery_year', 'transit_type', 'last_update', 'kepler_status', 'koi_srad', 'koi_steff', 'koi_disposition'], axis=1)
+
+# Renaming the column "koi_pdisposition" to "koi_disposition"
+kepler_data = kepler_data.rename(columns={'koi_pdisposition': 'koi_disposition'})
+
+koi_disposition_map = {'CANDIDATE': 0, 'FALSE POSITIVE': 1, 'CONFIRMED': 2, 'DOUBTFUL': 3}
+kepler_data['koi_disposition'] = kepler_data['koi_disposition'].map(koi_disposition_map)
+
+from sklearn.model_selection import train_test_split
+
+#spliting dataset -> training and test set
+X = kepler_data.drop('koi_disposition', axis=1)
+y = kepler_data['koi_disposition']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
+classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+classifier.fit(X_train, y_train)
+
+y_pred = classifier.predict(X_test)
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
